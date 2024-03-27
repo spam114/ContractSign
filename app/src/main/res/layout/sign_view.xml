@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.SignActivity"
+    android:orientation="vertical"
+    android:id="@+id/signform">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/Frame"
+        android:layout_weight="1">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/bakImage">
+        </ImageView>
+        <com.example.contract_sign.view.SimpleDrawingView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/drawView" />
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="10">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/saveSign"
+            android:text="저장"
+            android:textSize="30dp"
+            android:layout_weight="1"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/clearSign"
+            android:textSize="30dp"
+            android:text="초기화"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+</LinearLayout>
