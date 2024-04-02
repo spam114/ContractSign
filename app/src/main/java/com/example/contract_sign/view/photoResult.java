@@ -1,5 +1,7 @@
 package com.example.contract_sign.view;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,37 +9,32 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.contract_sign.R;
-import com.github.barteksc.pdfviewer.PDFView;
 
 import java.io.File;
-import java.net.URI;
 
-public class SignResult extends AppCompatActivity {
-
-    public PDFView pdfView;
+public class photoResult extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sign_result);
+        setContentView(R.layout.photo_result);
 
-        pdfView = findViewById(R.id.imageResult);
+        ImageView imageResult = findViewById(R.id.imageResult);
         Button StartMove = findViewById(R.id.startMove);
 
         Intent getIntent = getIntent();
         String FileName = getIntent.getStringExtra("FileName");
-        //uri = Uri.parse("/storage/emulated/0/" + Environment.DIRECTORY_DOWNLOADS + "/" + FileName);
-        File file = new File(FileName);
-        showPdfFile(file);
+
+        Uri uri = Uri.parse("/storage/emulated/0/" + Environment.DIRECTORY_DOWNLOADS + "/" + FileName);
+        System.out.println(uri.toString());
+
+        imageResult.setImageURI(uri);
+
         StartMove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 galleryAddPic("/storage/emulated/0/" + Environment.DIRECTORY_DOWNLOADS);
-                Intent intent = new Intent(SignResult.this,MainActivity.class);
+                Intent intent = new Intent(photoResult.this,MainActivity.class);
                 startActivity(intent);
             }
         });
@@ -53,17 +50,5 @@ public class SignResult extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
-    }
-
-    public void showPdfFile(File file){
-        try {
-            pdfView.fromFile(file)
-                    .defaultPage(1)
-                    .enableAnnotationRendering(true)
-                    .load();
-        }catch (Exception e){
-            System.out.println("실패");
-        }
-
     }
 }

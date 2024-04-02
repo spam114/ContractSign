@@ -34,10 +34,20 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.SignActivity"
+        <activity android:name=".view.SignPdfActivity"
+            android:exported="true"/>
+        <activity android:name=".view.SignEditActivity"
             android:exported="true"/>
         <activity android:name=".view.SignResult"
             android:exported="true"/>
+
+        <activity android:name=".view.photoActivity"
+            android:exported="true"/>
+        <activity android:name=".view.photoEditActivity"
+            android:exported="true"/>
+        <activity android:name=".view.photoResult"
+            android:exported="true"/>
+
     </application>
 
 </manifest>

@@ -1,21 +1,12 @@
 package com.example.contract_sign.view;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -26,16 +17,17 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.contract_sign.R;
-import com.example.contract_sign.logic.Dialog;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class SignActivity extends AppCompatActivity {
-
-//region 버튼 및 아이템 선언
+public class photoEditActivity extends AppCompatActivity {//region 버튼 및 아이템 선언
     public SimpleDrawingView simpleDrawingView;
     public Button saveSign;
     public Button clearSign;
@@ -47,7 +39,7 @@ public class SignActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.sign_view);
+        setContentView(R.layout.photo_edit);
 
 //region 버튼 및 아이템 연결
         saveSign    = findViewById(R.id.saveSign);
@@ -65,7 +57,7 @@ public class SignActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                AlertDialog.Builder msBuilder = new AlertDialog.Builder(SignActivity.this);
+                AlertDialog.Builder msBuilder = new AlertDialog.Builder(photoEditActivity.this);
                 msBuilder.setTitle("저장 확인");
                 msBuilder.setMessage("저장 확인");
 
@@ -82,6 +74,9 @@ public class SignActivity extends AppCompatActivity {
                         frame.setDrawingCacheEnabled(false);
 
                         File Dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                        Document document = new Document();
+                        String output = Dir.getPath() + "/" + sdf.format(date) + ".pdf";
+
 
                         if(!Dir.exists()){
                             Dir.mkdirs();
@@ -92,9 +87,23 @@ public class SignActivity extends AppCompatActivity {
                             captureView.compress(Bitmap.CompressFormat.PNG,100,fos);
                             fos.close();
 
+                            fos = new FileOutputStream(output);
+                            PdfWriter writer = PdfWriter.getInstance(document, fos);
+                            writer.open();
+                            document.open();
+                            Image image = Image.getInstance(Dir.getPath() + '/' + FileName);
+                            image.scaleToFit(PageSize.A4.getWidth(), PageSize.A4.getHeight());
+                            float x = (PageSize.A4.getWidth() - image.getScaledWidth()) / 2;
+                            float y = (PageSize.A4.getHeight() - image.getScaledHeight()) / 2;
+                            image.setAbsolutePosition(x, y);
+                            document.add(image);
+                            document.close();
+                            writer.close();
+                            fos.close();
+
                             Toast.makeText(getApplicationContext(),"저장되었습니다.", Toast.LENGTH_LONG).show();
 
-                            Intent SignIntent = new Intent(SignActivity.this, SignResult.class);
+                            Intent SignIntent = new Intent(photoEditActivity.this, photoResult.class);
 
                             SignIntent.putExtra("FileName",FileName);
 
@@ -120,10 +129,10 @@ public class SignActivity extends AppCompatActivity {
 
         // 그린거 초기화
         clearSign.setOnClickListener(new View.OnClickListener() {
-            
+
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder msBuilder = new AlertDialog.Builder(SignActivity.this);
+                AlertDialog.Builder msBuilder = new AlertDialog.Builder(photoEditActivity.this);
                 msBuilder.setTitle("초기화");
                 msBuilder.setMessage("화면을 지우시겠습니까?");
 
@@ -150,4 +159,5 @@ public class SignActivity extends AppCompatActivity {
             }
         });
     }
+
 }

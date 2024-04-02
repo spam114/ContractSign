@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.SignEditActivity"
+    tools:context=".view.photoEditActivity"
     android:orientation="vertical"
     android:id="@+id/signform">
     <FrameLayout
@@ -12,16 +12,14 @@
         android:layout_height="match_parent"
         android:id="@+id/Frame"
         android:layout_weight="1">
-        <com.github.barteksc.pdfviewer.PDFView
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
             android:id="@+id/bakImage">
-        </com.github.barteksc.pdfviewer.PDFView>
+        </ImageView>
         <com.example.contract_sign.view.SimpleDrawingView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
+            android:layout_height="wrap_content"
             android:id="@+id/drawView" />
     </FrameLayout>
     <LinearLayout

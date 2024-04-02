@@ -5,38 +5,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.SignResult"
+    tools:context=".view.photoActivity"
     android:orientation="vertical">
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
-        <com.github.barteksc.pdfviewer.PDFView
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/imageResult"
+            android:id="@+id/image"
             android:layout_weight="1"
-            android:layout_gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0">
-        </com.github.barteksc.pdfviewer.PDFView>
+        </ImageView>
     </FrameLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="9">
+        android:layout_weight="10">
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/startMove"
-            android:text="처음화면으로"
-            android:textSize="30dp"
-            android:layout_weight="1" />
+            android:id="@+id/selectContract"
+            android:text="양식 선택"
+            android:layout_weight="1"
+            android:textSize="30dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/addSign"
+            android:text="사인 추가"
+            android:layout_weight="1"
+            android:textSize="30dp"/>
 
     </LinearLayout>
-
 </LinearLayout>
