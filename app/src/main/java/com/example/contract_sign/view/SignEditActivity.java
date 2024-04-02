@@ -4,10 +4,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -35,6 +38,7 @@ public class SignEditActivity extends AppCompatActivity {
     public Button clearSign;
     public FrameLayout frame;
     public PDFView BackImage;
+    public ViewGroup.LayoutParams params;
 //endregion
 
     @Override
@@ -50,6 +54,33 @@ public class SignEditActivity extends AppCompatActivity {
         BackImage         = findViewById(R.id.bakImage);
         frame             = findViewById(R.id.Frame);
 //endregion
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getRealSize(size);
+        int Width = size.x;
+        int Height = size.y;
+        int A4Width = 210;
+        int A4height = 297;
+
+        while(true){
+            if(A4Width + 210 >= Width || A4height + 297 >= Height){
+                break;
+            }
+            A4Width += 210;
+            A4height += 297;
+        }
+        System.out.println("2========================");
+        System.out.println("display X = " + Width);
+        System.out.println("display Y = " + Height);
+        System.out.println("X = " + A4Width);
+        System.out.println("Y = " + A4height);
+
+        ViewGroup.LayoutParams params = BackImage.getLayoutParams();
+        params.width = A4Width;
+        params.height = A4height;
+        simpleDrawingView.setLayoutParams(params);
+        BackImage.setLayoutParams(params);
 
         Uri uri = getIntent().getParcelableExtra("image");
         showPDF(uri);

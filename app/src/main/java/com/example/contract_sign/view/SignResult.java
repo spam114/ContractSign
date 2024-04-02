@@ -1,10 +1,13 @@
 package com.example.contract_sign.view;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -27,6 +30,33 @@ public class SignResult extends AppCompatActivity {
 
         pdfView = findViewById(R.id.imageResult);
         Button StartMove = findViewById(R.id.startMove);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getRealSize(size);
+        int Width = size.x;
+        int Height = size.y;
+        int A4Width = 210;
+        int A4height = 297;
+
+        while(true){
+            if(A4Width + 210 >= Width || A4height + 297 >= Height){
+                break;
+            }
+            A4Width += 210;
+            A4height += 297;
+        }
+
+        System.out.println("3========================");
+        System.out.println("display X = " + Width);
+        System.out.println("display Y = " + Height);
+        System.out.println("X = " + A4Width);
+        System.out.println("Y = " + A4height);
+
+        ViewGroup.LayoutParams params = pdfView.getLayoutParams();
+        params.width = A4Width;
+        params.height = A4height;
+        pdfView.setLayoutParams(params);
 
         Intent getIntent = getIntent();
         String FileName = getIntent.getStringExtra("FileName");

@@ -1,16 +1,23 @@
 package com.example.contract_sign.view;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.contract_sign.R;
+import com.example.contract_sign.logic.Resize;
 import com.github.barteksc.pdfviewer.PDFView;
+import com.example.contract_sign.logic.Resize;
 
 public class SignPdfActivity extends AppCompatActivity {
     //region 변수 선언
@@ -18,7 +25,6 @@ public class SignPdfActivity extends AppCompatActivity {
     public Button selectContract;
     public Button addSign;
     public Uri uri;
-
     //endregion
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,7 +35,28 @@ public class SignPdfActivity extends AppCompatActivity {
         pdfView = findViewById(R.id.image);
         selectContract = findViewById(R.id.selectContract);
         addSign = findViewById(R.id.addSign);
+
         //endregion
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getRealSize(size);
+        int Width = size.x;
+        int Height = size.y;
+        int A4Width = 210;
+        int A4height = 297;
+
+        while(true){
+            if(A4Width + 210 >= Width || A4height + 297 >= Height){
+                break;
+            }
+            A4Width += 210;
+            A4height += 297;
+        }
+
+        ViewGroup.LayoutParams params = pdfView.getLayoutParams();
+        params.width = A4Width;
+        params.height = A4height;
+        pdfView.setLayoutParams(params);
         selectContract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
