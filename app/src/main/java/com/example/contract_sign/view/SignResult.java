@@ -88,7 +88,7 @@ public class SignResult extends AppCompatActivity {
     public void showPdfFile(File file){
         try {
             pdfView.fromFile(file)
-                    .defaultPage(1)
+                    .defaultPage(0)
                     .enableAnnotationRendering(true)
                     .load();
         }catch (Exception e){

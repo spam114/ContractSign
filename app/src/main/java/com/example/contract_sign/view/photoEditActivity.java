@@ -17,6 +17,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.contract_sign.R;
+import com.example.contract_sign.logic.SaveFile;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
@@ -33,6 +34,7 @@ public class photoEditActivity extends AppCompatActivity {//region 버튼 및 �
     public Button clearSign;
     public FrameLayout frame;
     public ImageView BackImage;
+    public SaveFile saveFile;
 //endregion
 
     @Override
@@ -74,32 +76,13 @@ public class photoEditActivity extends AppCompatActivity {//region 버튼 및 �
                         frame.setDrawingCacheEnabled(false);
 
                         File Dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-                        Document document = new Document();
                         String output = Dir.getPath() + "/" + sdf.format(date) + ".pdf";
-
 
                         if(!Dir.exists()){
                             Dir.mkdirs();
                         }
-                        FileOutputStream fos;
                         try {
-                            fos = new FileOutputStream(new File(Dir,FileName));
-                            captureView.compress(Bitmap.CompressFormat.PNG,100,fos);
-                            fos.close();
-
-                            fos = new FileOutputStream(output);
-                            PdfWriter writer = PdfWriter.getInstance(document, fos);
-                            writer.open();
-                            document.open();
-                            Image image = Image.getInstance(Dir.getPath() + '/' + FileName);
-                            image.scaleToFit(PageSize.A4.getWidth(), PageSize.A4.getHeight());
-                            float x = (PageSize.A4.getWidth() - image.getScaledWidth()) / 2;
-                            float y = (PageSize.A4.getHeight() - image.getScaledHeight()) / 2;
-                            image.setAbsolutePosition(x, y);
-                            document.add(image);
-                            document.close();
-                            writer.close();
-                            fos.close();
+                            saveFile.PdfSave(Dir,captureView,FileName,output);
 
                             Toast.makeText(getApplicationContext(),"저장되었습니다.", Toast.LENGTH_LONG).show();
 

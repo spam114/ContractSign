@@ -19,6 +19,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.contract_sign.R;
+import com.example.contract_sign.logic.SaveFile;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
@@ -38,7 +39,7 @@ public class SignEditActivity extends AppCompatActivity {
     public Button clearSign;
     public FrameLayout frame;
     public PDFView BackImage;
-    public ViewGroup.LayoutParams params;
+    public SaveFile saveFile;
 //endregion
 
     @Override
@@ -110,30 +111,10 @@ public class SignEditActivity extends AppCompatActivity {
                         if(!Dir.exists()){
                             Dir.mkdirs();
                         }
-                        FileOutputStream fos;
-
-                        Document document = new Document();
                         String output = Dir.getPath() + "/" + sdf.format(date) + ".pdf";
 
                         try {
-                            fos = new FileOutputStream(new File(Dir,FileName));
-                            captureView = Bitmap.createScaledBitmap(captureView,BackImage.getWidth(),BackImage.getHeight(),false);
-                            captureView.compress(Bitmap.CompressFormat.PNG,100,fos);
-                            fos.close();
-
-                            fos = new FileOutputStream(output);
-                            PdfWriter writer = PdfWriter.getInstance(document, fos);
-                            writer.open();
-                            document.open();
-                            Image image = Image.getInstance(Dir.getPath() + '/' + FileName);
-                            image.scaleToFit(PageSize.A4.getWidth(), PageSize.A4.getHeight());
-                            float x = (PageSize.A4.getWidth() - image.getScaledWidth()) / 2;
-                            float y = (PageSize.A4.getHeight() - image.getScaledHeight()) / 2;
-                            image.setAbsolutePosition(x, y);
-                            document.add(image);
-                            document.close();
-                            writer.close();
-                            fos.close();
+                            saveFile.PdfSave(Dir,captureView,FileName,output);
 
                             Toast.makeText(getApplicationContext(),"저장되었습니다.", Toast.LENGTH_LONG).show();
 
@@ -195,8 +176,8 @@ public class SignEditActivity extends AppCompatActivity {
     }
     public void showPDF(Uri uri){
         BackImage.fromUri(uri)
-                .defaultPage(1)
-                .pages(1)
+                .defaultPage(0)
+                .pages(0)
                 .enableAnnotationRendering(true)
                 .load();
     }

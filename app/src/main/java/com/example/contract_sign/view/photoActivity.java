@@ -1,12 +1,8 @@
 package com.example.contract_sign.view;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,20 +11,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.contract_sign.R;
-import com.github.barteksc.pdfviewer.PDFView;
-import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 public class photoActivity extends AppCompatActivity {
     public ImageView imageView;
     public Button selectContract;
     public Button addSign;
     public Uri uri;
-    final public int ImageCode = 100;
-
-    final public int CaptureCode = 200;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,8 +45,6 @@ public class photoActivity extends AppCompatActivity {
                 }
 
                 Intent SignIntent = new Intent(photoActivity.this, photoEditActivity.class);
-
-                System.out.println(uri.toString());
 
                 SignIntent.putExtra("image",uri);
 

@@ -8,16 +8,12 @@ import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.contract_sign.R;
-import com.example.contract_sign.logic.Resize;
 import com.github.barteksc.pdfviewer.PDFView;
-import com.example.contract_sign.logic.Resize;
 
 public class SignPdfActivity extends AppCompatActivity {
     //region 변수 선언
@@ -108,8 +104,8 @@ public class SignPdfActivity extends AppCompatActivity {
 
     public void showPDF(){
         pdfView.fromUri(uri)
-                .defaultPage(1)
-                .pages(1)
+                .defaultPage(0)
+                .pages(0)
                 .enableAnnotationRendering(true)
                 .load();
     }
